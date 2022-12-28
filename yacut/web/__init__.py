@@ -1,0 +1,1 @@
+import yacut.web.views
