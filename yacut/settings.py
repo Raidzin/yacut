@@ -1,5 +1,6 @@
 from os.path import join
 from os import getenv, getcwd
+from string import ascii_letters, digits
 
 from dotenv import load_dotenv
 from flask import Flask
@@ -8,6 +9,10 @@ from flask_sqlalchemy import SQLAlchemy
 
 load_dotenv()
 cwd = getcwd()
+
+URL_ALLOWED_LENGTH = 16
+URL_ALLOWED_CHARACTERS = ascii_letters + digits
+RANDOM_RETRIES = 1000
 
 
 class Config(object):

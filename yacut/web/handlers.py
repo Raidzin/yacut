@@ -3,14 +3,6 @@ from yacut.api.exceptions import ValidationError
 from yacut.web.forms import URLForm
 from yacut.web.exceptions import APIError, PageNotFound
 
-"""
-Тут планировалось сделать запросы к api через requests.
-Хотелось так сделать для того, чтоб реализовать распределённую архитектуру,
-апи отдельно, фронт отдельно. Но тесты так сделать не позволили,
-поэтому приходится импортировать функции из api,
-что архитектурно не очень хорошо(
-"""
-
 
 def get_short_url(form: URLForm):
     try:
