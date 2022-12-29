@@ -22,7 +22,7 @@ def get_short_url(form: URLForm):
     except ValidationError as error:
         raise APIError(
             form=form,
-            message=error.message,
+            message=error.message.replace('.', '!').replace('"', ''),
             status_code=error.status_code
         )
 

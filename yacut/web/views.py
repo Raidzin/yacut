@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect
+from flask import render_template, redirect
 
 from yacut import app
 from yacut.web.handlers import get_short_url, get_original_url_web

@@ -21,29 +21,38 @@ def _save_urls(original, short):
     db.session.commit()
 
 
-def _get_random_url():
-    return ''.join([
-        choice(ascii_letters + digits) for _ in range(6)
-    ])
+def _get_random_url(original_url):
+    try:
+        return URLMap.query.filter(
+            URLMap.original == original_url
+        ).first().short, False
+    except AttributeError:
+        return ''.join([
+            choice(ascii_letters + digits) for _ in range(6)
+        ]), True
 
 
-def _get_unique_random_url():
+def _get_unique_random_url(original_url):
     while True:
-        unique_url = _get_random_url()
-        if URLMap.query.filter(URLMap.short == unique_url).count() == 0:
+        unique_url, created = _get_random_url(original_url)
+        if not created or URLMap.query.filter(
+                URLMap.short == unique_url
+        ).count() == 0:
             break
-    return unique_url
+    return unique_url, created
 
 
 def process_data(data):
     data = validate_urls(data)
     if CUSTOM_URL not in data or not data[CUSTOM_URL]:
-        data[SHORT_LINK] = _get_unique_random_url()
+        data[SHORT_LINK], created = _get_unique_random_url(data[URL])
     else:
         data[SHORT_LINK] = data[CUSTOM_URL]
+        created = True
     if CUSTOM_URL in data:
         del data[CUSTOM_URL]
-    _save_urls(data[URL], data[SHORT_LINK])
+    if created:
+        _save_urls(data[URL], data[SHORT_LINK])
     data[SHORT_LINK] = BASE_URL + data[SHORT_LINK]
     return data
 
