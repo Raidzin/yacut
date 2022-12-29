@@ -14,8 +14,6 @@ NAME_REQUIRED = 'Имя "{}" уже занято.'
 
 
 def _check_url_in_database(url):
-    a = URLMap.query.filter(URLMap.short == url).count()
-    print(a)
     return not URLMap.query.filter(URLMap.short == url).count() == 0
 
 

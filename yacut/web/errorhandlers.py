@@ -19,4 +19,4 @@ def api_error(error: APIError):
     if error.status_code == 500:
         return render_template('500.html'), 500
     flash(error.message)
-    return render_template('index.html', user_input=error.user_input)
+    return render_template('index.html', form=error.form)

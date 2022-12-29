@@ -3,12 +3,11 @@ ERROR_MESSAGE = 'Ошибка сервера'
 
 class APIError(Exception):
 
-    def __init__(self, message=ERROR_MESSAGE,
-                 status_code=500, user_input=None):
+    def __init__(self, form, message=ERROR_MESSAGE, status_code=500, ):
         super().__init__()
         self.message = message
         self.status_code = status_code
-        self.user_input = user_input
+        self.form = form
 
 
 class PageNotFound(Exception):
