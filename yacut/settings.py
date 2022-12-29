@@ -11,9 +11,11 @@ cwd = getcwd()
 
 
 class Config(object):
-    SQLALCHEMY_DATABASE_URI = getenv('SQLALCHEMY_DATABASE_URI')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SECRET_KEY = getenv('SECRET_KEY')
+    SQLALCHEMY_DATABASE_URI = getenv('SQLALCHEMY_DATABASE_URI',
+                                     default='sqlite:///db.sqlite3')
+    SECRET_KEY = getenv('SECRET_KEY',
+                        default='fudnlzsiuhd;zisudv;ziushdie;fhkszjbdf;k')
 
 
 app = Flask(
