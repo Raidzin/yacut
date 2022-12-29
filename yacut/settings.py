@@ -1,4 +1,5 @@
-from os import getenv
+from os.path import join
+from os import getenv, getcwd
 
 from dotenv import load_dotenv
 from flask import Flask
@@ -6,6 +7,7 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
 load_dotenv()
+cwd = getcwd()
 
 
 class Config(object):
@@ -16,9 +18,9 @@ class Config(object):
 
 app = Flask(
     __name__,
-    template_folder=r'..\html',
+    template_folder=join(cwd, 'html'),
     static_url_path='',
-    static_folder=r'..\html',
+    static_folder=join(cwd, 'html'),
 )
 app.config.from_object(Config)
 db = SQLAlchemy(app)
