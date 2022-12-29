@@ -14,6 +14,8 @@ NAME_REQUIRED = 'Имя "{}" уже занято.'
 
 
 def _check_url_in_database(url):
+    a = URLMap.query.filter(URLMap.short == url).count()
+    print(a)
     return not URLMap.query.filter(URLMap.short == url).count() == 0
 
 
@@ -22,7 +24,7 @@ def validate_urls(urls: dict):
         raise ValidationError(EMPTY_DATA)
     if URL not in urls.keys():
         raise ValidationError(REQUIRED_FIELD)
-    if CUSTOM_URL not in urls or urls[CUSTOM_URL] is None:
+    if CUSTOM_URL not in urls or not urls[CUSTOM_URL]:
         return urls
     custom_url = urls[CUSTOM_URL]
     if (

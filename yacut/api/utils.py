@@ -37,7 +37,7 @@ def _get_unique_random_url():
 
 def process_data(data):
     data = validate_urls(data)
-    if CUSTOM_URL not in data or data[CUSTOM_URL] is None:
+    if CUSTOM_URL not in data or not data[CUSTOM_URL]:
         data[SHORT_LINK] = _get_unique_random_url()
     else:
         data[SHORT_LINK] = data[CUSTOM_URL]
