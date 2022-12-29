@@ -2,7 +2,6 @@ from flask import render_template, request, redirect
 
 from yacut import app
 from yacut.web.handlers import get_short_url, get_original_url
-from yacut.web.exceptions import APIError
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -18,5 +17,4 @@ def index():
 
 @app.route('/<url>')
 def redirect_to_original_url(url):
-        return redirect(get_original_url(url))
-
+    return redirect(get_original_url(url))

@@ -10,5 +10,6 @@ class APIError(Exception):
         self.status_code = status_code
         self.user_input = user_input
 
+
 class PageNotFound(Exception):
     pass

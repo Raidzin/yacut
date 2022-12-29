@@ -27,10 +27,8 @@ def validate_urls(urls: dict):
     if CUSTOM_URL not in urls or not urls[CUSTOM_URL]:
         return urls
     custom_url = urls[CUSTOM_URL]
-    if (
-        len(str(custom_url)) > ALLOWED_URL_LENGTH
-        or set(custom_url) - set(ascii_letters + digits)
-    ):
+    if (len(str(custom_url)) > ALLOWED_URL_LENGTH or
+            set(custom_url) - set(ascii_letters + digits)):
         raise ValidationError(INCORRECT_NAME)
     if _check_url_in_database(custom_url):
         raise ValidationError(NAME_REQUIRED.format(custom_url))
