@@ -1,7 +1,7 @@
 ERROR_MESSAGE = 'Ошибка сервера'
 
 
-class APIError(Exception):
+class DBError(Exception):
 
     def __init__(self, form, message=ERROR_MESSAGE, status_code=500, ):
         super().__init__()

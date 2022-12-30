@@ -13,12 +13,13 @@ cwd = getcwd()
 URL_ALLOWED_LENGTH = 16
 URL_ALLOWED_CHARACTERS = ascii_letters + digits
 RANDOM_RETRIES = 1000
+BASE_URL = 'http://localhost/'
 
 
 class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = getenv('SQLALCHEMY_DATABASE_URI',
-                                     default='sqlite:///db.sqlite3')
+                                     default='sqlite:///YaCut.sqlite3')
     SECRET_KEY = getenv('SECRET_KEY',
                         default='fudnlzsiuhd;zisudv;ziushdie;fhkszjbdf;k')
 

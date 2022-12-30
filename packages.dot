@@ -1,0 +1,52 @@
+digraph "packages" {
+rankdir=BT
+charset="utf-8"
+"yacut" [color="black", label="yacut", shape="box", style="solid"];
+"yacut.api" [color="black", label="yacut.api", shape="box", style="solid"];
+"yacut.api.errorhandlers" [color="black", label="yacut.api.errorhandlers", shape="box", style="solid"];
+"yacut.api.exceptions" [color="black", label="yacut.api.exceptions", shape="box", style="solid"];
+"yacut.api.utils" [color="black", label="yacut.api.utils", shape="box", style="solid"];
+"yacut.api.validators" [color="black", label="yacut.api.validators", shape="box", style="solid"];
+"yacut.api.views" [color="black", label="yacut.api.views", shape="box", style="solid"];
+"yacut.models" [color="black", label="yacut.models", shape="box", style="solid"];
+"yacut.settings" [color="black", label="yacut.settings", shape="box", style="solid"];
+"yacut.web" [color="black", label="yacut.web", shape="box", style="solid"];
+"yacut.web.errorhandlers" [color="black", label="yacut.web.errorhandlers", shape="box", style="solid"];
+"yacut.web.exceptions" [color="black", label="yacut.web.exceptions", shape="box", style="solid"];
+"yacut.web.forms" [color="black", label="yacut.web.forms", shape="box", style="solid"];
+"yacut.web.handlers" [color="black", label="yacut.web.handlers", shape="box", style="solid"];
+"yacut.web.views" [color="black", label="yacut.web.views", shape="box", style="solid"];
+"yacut" -> "yacut" [arrowhead="open", arrowtail="none"];
+"yacut" -> "yacut.api" [arrowhead="open", arrowtail="none"];
+"yacut" -> "yacut.models" [arrowhead="open", arrowtail="none"];
+"yacut" -> "yacut.settings" [arrowhead="open", arrowtail="none"];
+"yacut.api" -> "yacut.api" [arrowhead="open", arrowtail="none"];
+"yacut.api" -> "yacut.api.errorhandlers" [arrowhead="open", arrowtail="none"];
+"yacut.api" -> "yacut.api.views" [arrowhead="open", arrowtail="none"];
+"yacut.api.errorhandlers" -> "yacut" [arrowhead="open", arrowtail="none"];
+"yacut.api.errorhandlers" -> "yacut.api.exceptions" [arrowhead="open", arrowtail="none"];
+"yacut.api.utils" -> "yacut.api.exceptions" [arrowhead="open", arrowtail="none"];
+"yacut.api.utils" -> "yacut.api.validators" [arrowhead="open", arrowtail="none"];
+"yacut.api.utils" -> "yacut.models" [arrowhead="open", arrowtail="none"];
+"yacut.api.utils" -> "yacut.settings" [arrowhead="open", arrowtail="none"];
+"yacut.api.validators" -> "yacut.api.exceptions" [arrowhead="open", arrowtail="none"];
+"yacut.api.validators" -> "yacut.models" [arrowhead="open", arrowtail="none"];
+"yacut.api.validators" -> "yacut.settings" [arrowhead="open", arrowtail="none"];
+"yacut.api.views" -> "yacut" [arrowhead="open", arrowtail="none"];
+"yacut.api.views" -> "yacut.api.utils" [arrowhead="open", arrowtail="none"];
+"yacut.models" -> "yacut" [arrowhead="open", arrowtail="none"];
+"yacut.models" -> "yacut.settings" [arrowhead="open", arrowtail="none"];
+"yacut.web" -> "yacut.web" [arrowhead="open", arrowtail="none"];
+"yacut.web" -> "yacut.web.errorhandlers" [arrowhead="open", arrowtail="none"];
+"yacut.web" -> "yacut.web.views" [arrowhead="open", arrowtail="none"];
+"yacut.web.errorhandlers" -> "yacut" [arrowhead="open", arrowtail="none"];
+"yacut.web.errorhandlers" -> "yacut.web.exceptions" [arrowhead="open", arrowtail="none"];
+"yacut.web.forms" -> "yacut.settings" [arrowhead="open", arrowtail="none"];
+"yacut.web.handlers" -> "yacut.models" [arrowhead="open", arrowtail="none"];
+"yacut.web.handlers" -> "yacut.web.exceptions" [arrowhead="open", arrowtail="none"];
+"yacut.web.handlers" -> "yacut.web.forms" [arrowhead="open", arrowtail="none"];
+"yacut.web.views" -> "yacut" [arrowhead="open", arrowtail="none"];
+"yacut.web.views" -> "yacut.settings" [arrowhead="open", arrowtail="none"];
+"yacut.web.views" -> "yacut.web.forms" [arrowhead="open", arrowtail="none"];
+"yacut.web.views" -> "yacut.web.handlers" [arrowhead="open", arrowtail="none"];
+}

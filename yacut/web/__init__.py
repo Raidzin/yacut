@@ -1,2 +1,1 @@
-import yacut.web.views
-import yacut.web.errorhandlers
+from yacut.web import views, errorhandlers

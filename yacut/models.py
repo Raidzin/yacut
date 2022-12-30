@@ -1,6 +1,8 @@
 from datetime import datetime
 from random import choice
 
+from sqlalchemy.exc import IntegrityError
+
 from yacut import db
 from yacut.settings import URL_ALLOWED_CHARACTERS, RANDOM_RETRIES
 
@@ -30,7 +32,7 @@ class URLMap(db.Model):
         return None
 
     @staticmethod
-    def get_original_ulr(short_url):
+    def get_original_url(short_url):
         try:
             return URLMap.query.filter(
                 URLMap.short == short_url
@@ -53,13 +55,29 @@ class URLMap(db.Model):
         raise OverflowError
 
     @classmethod
-    def make_sort_url(cls, original_url):
+    def make_random_short_url(cls, original_url):
         short_url = cls.get_short_url_from_original(original_url)
         if short_url is None:
-            short_url = cls.get_unique_url()
-        cls.save_urls(original_url, short_url)
+            try:
+                short_url = cls.get_unique_url()
+            except OverflowError:
+                raise cls.DBError
+            cls.save_urls(original_url, short_url)
+        return short_url
+
+    @classmethod
+    def make_short_url(cls, original_url, short_url=None):
+        if not short_url:
+            return cls.make_random_short_url(original_url)
+        try:
+            cls.save_urls(original_url, short_url)
+        except IntegrityError:
+            raise cls.DBError(f'Имя {short_url} уже занято!')
         return short_url
 
     @staticmethod
     def short_url_exists(url):
         return not URLMap.query.filter(URLMap.short == url).count() == 0
+
+    class DBError(Exception):
+        pass

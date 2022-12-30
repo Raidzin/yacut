@@ -1,37 +1,63 @@
-Клонировать репозиторий и перейти в него в командной строке:
+# Якут
 
-```
-git clone 
-```
 
-```
-cd yacut
-```
+## Установка
+- #### Клонировать репозиторий и перейти в него в командной строке:
 
-Cоздать и активировать виртуальное окружение:
+  ```shell
+  git clone 
+  ```
 
-```
-python3 -m venv venv
-```
+  ```shell
+  cd yacut
+  ```
 
-* Если у вас Linux/macOS
+- #### Создать и активировать виртуальное окружение:
 
-    ```
+  ```shell
+  python3 -m venv venv
+  ```
+
+  - Если у вас Linux/macOS
+
+    ```shell
     source venv/bin/activate
     ```
 
-* Если у вас windows
+  * Если у вас windows
 
+    ```commandline
+    venv/scripts/Activate
     ```
-    source venv/scripts/activate
-    ```
 
-Установить зависимости из файла requirements.txt:
+- #### Установить зависимости из файла requirements.txt:
 
-```
-python3 -m pip install --upgrade pip
+  ```shell
+  python3 -m pip install --upgrade pip
+  ```
+  
+  ```shell
+  pip install -r requirements.txt
+  ```
+  
+## Запуск
+Рекомендуется использвать wsgi сервер. В пакете yacut для его запуска есть приложение app. Но можно запустить отладочный сервер Flask.
+```shell
+python run.py
 ```
 
-```
-pip install -r requirements.txt
-```
+## Используется
+- Python
+- Flask
+  - SQLAlchemy
+  - WTForms
+
+## Структура проекта
+
+![](https://github.com/Raidzin/yacut/blob/master/graphviz.svg?raw=true)
+
+использован инструмент [Pylint](https://pylint.pycqa.org/en/latest/pyreverse.html)
+
+## Разработчик
+                            
+- [Raidzin](https://github.com/Raidzin "github.com/Raidzin")

@@ -1,3 +1,3 @@
 from yacut import app
 
-app.run(debug=True, host='localhost', port=80)
+app.run(debug=False, host='localhost', port=80)
