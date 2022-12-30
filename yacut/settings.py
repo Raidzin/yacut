@@ -19,7 +19,7 @@ BASE_URL = 'http://localhost/'
 class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = getenv('SQLALCHEMY_DATABASE_URI',
-                                     default='sqlite:///YaCut.sqlite3')
+                                     default='sqlite:///db.sqlite3')
     SECRET_KEY = getenv('SECRET_KEY',
                         default='fudnlzsiuhd;zisudv;ziushdie;fhkszjbdf;k')
 
