@@ -56,7 +56,11 @@ class URLMap(db.Model):
 
     @staticmethod
     def get_original_url(short_url):
-        if urlmap := URLMap.get_short_url(short_url):
+        # if urlmap := URLMap.get_short_url(short_url):
+        #     return urlmap.original
+        # return None
+        urlmap = URLMap.get_short_url(short_url)
+        if urlmap:
             return urlmap.original
         return None
 
