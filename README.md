@@ -5,7 +5,7 @@
 - #### Клонировать репозиторий и перейти в него в командной строке:
 
   ```shell
-  git clone 
+  git clone https://github.com/Raidzin/yacut.git
   ```
 
   ```shell
@@ -39,7 +39,18 @@
   ```shell
   pip install -r requirements.txt
   ```
-  
+
+## Создание БД
+```shell
+export FLASK_APP=yacut
+```
+```shell
+flask shell
+```
+```python
+from yacute import db
+db.create_all()
+```
 ## Запуск
 Рекомендуется использвать wsgi сервер. В пакете `yacut` для его запуска есть приложение `app`. Но можно запустить отладочный сервер Flask.
 ```shell
@@ -49,8 +60,8 @@ python run.py
 ## Используется
 - Python
 - Flask
-  - SQLAlchemy
-  - WTForms
+- SQLAlchemy
+- WTForms
 
 ## Структура проекта
 

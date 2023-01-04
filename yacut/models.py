@@ -4,14 +4,33 @@ from random import choices
 from sqlalchemy.exc import IntegrityError
 
 from yacut import db
-from yacut.settings import URL_ALLOWED_CHARACTERS, RANDOM_RETRIES
+from yacut.settings import (
+    URL_ALLOWED_CHARACTERS, RANDOM_RETRIES,
+    ORIGINAL_URL_LENGTH, URL_ALLOWED_LENGTH,
+)
+
+MAX_RETRIES = 'Не удалось создать уникальную ссылку'
+NAME_REQUIRED = 'Имя {} уже занято!'
 
 
 class URLMap(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    original = db.Column(db.String(100), nullable=False)
-    short = db.Column(db.String(6), unique=True, nullable=False)
-    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+    )
+    original = db.Column(
+        db.String(ORIGINAL_URL_LENGTH),
+        nullable=False,
+    )
+    short = db.Column(
+        db.String(URL_ALLOWED_LENGTH),
+        unique=True, nullable=False,
+    )
+    timestamp = db.Column(
+        db.DateTime,
+        index=True,
+        default=datetime.utcnow,
+    )
 
     def _save(self):
         db.session.add(self)
@@ -32,52 +51,47 @@ class URLMap(db.Model):
         return None
 
     @staticmethod
-    def get_original_url(short_url):
-        try:
-            return URLMap.query.filter(
-                URLMap.short == short_url
-            ).first().original
-        except AttributeError:
-            return None
+    def get_short_url(short_url):
+        return URLMap.query.filter(URLMap.short == short_url).first()
 
     @staticmethod
-    def _get_random_url():
-        return ''.join([
-            choices([*URL_ALLOWED_CHARACTERS]).pop() for _ in range(6)
-        ])
+    def get_original_url(short_url):
+        if urlmap := URLMap.get_short_url(short_url):
+            return urlmap.original
+        return None
 
     @classmethod
     def get_unique_url(cls):
         for _ in range(RANDOM_RETRIES):
-            unique_url = cls._get_random_url()
+            unique_url = ''.join(choices([*URL_ALLOWED_CHARACTERS], k=6))
             if URLMap.query.filter(URLMap.short == unique_url).count() == 0:
                 return unique_url
-        raise OverflowError
+        raise TimeoutError(MAX_RETRIES)
 
-    @classmethod
-    def make_random_short_url(cls, original_url):
-        short_url = cls.get_short_url_from_original(original_url)
+    @staticmethod
+    def make_random_short_url(original_url):
+        short_url = URLMap.get_short_url_from_original(original_url)
         if short_url is None:
             try:
-                short_url = cls.get_unique_url()
-            except OverflowError:
-                raise cls.DBError
-            cls.save_urls(original_url, short_url)
+                short_url = URLMap.get_unique_url()
+            except TimeoutError as error:
+                raise URLMap.DBError(error)
+            URLMap.save_urls(original_url, short_url)
         return short_url
 
-    @classmethod
-    def make_short_url(cls, original_url, short_url=None):
+    @staticmethod
+    def make_short_url(original_url, short_url=None):
         if not short_url:
-            return cls.make_random_short_url(original_url)
+            return URLMap.make_random_short_url(original_url)
         try:
-            cls.save_urls(original_url, short_url)
+            URLMap.save_urls(original_url, short_url)
         except IntegrityError:
-            raise cls.DBError(f'Имя {short_url} уже занято!')
+            raise URLMap.DBError(NAME_REQUIRED.format(short_url))
         return short_url
 
     @staticmethod
     def short_url_exists(url):
-        return not URLMap.query.filter(URLMap.short == url).count() == 0
+        return bool(URLMap.get_short_url(url))
 
     class DBError(Exception):
         pass

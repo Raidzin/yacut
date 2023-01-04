@@ -16,24 +16,18 @@
               <div>
                 {{ form.csrf_token }}
                 {{ form.original_link(class="form-control form-control-lg py-2 mb-3", id="form-title", placeholder=form.original_link.label.text) }}
-                {% if form.original_link.errors %}
-                  {% for error in form.original_link.errors %}
-                    <p><span style="color:red">{{ error }}</span></p>
-                  {% endfor %}
-                {% endif %}
+                {% for error in form.original_link.errors %}
+                  <p><span style="color:red">{{ error }}</span></p>
+                {% endfor %}
                 {{ form.custom_id(class="form-control form-control-lg py-2 mb-3", id="form-link", placeholder=form.custom_id.label.text) }}
-                {% if form.custom_id.errors %}
-                  {% for error in form.custom_id.errors %}
-                    <p><span style="color:red">{{ error }}</span></p>
-                  {% endfor %}
-                {% endif %}
+                {% for error in form.custom_id.errors %}
+                  <p><span style="color:red">{{ error }}</span></p>
+                {% endfor %}
                 {{ form.submit(class="btn btn-primary") }}
                 {% with messages = get_flashed_messages() %}
-                  {% if messages %}
-                    {% for message in messages %}
-                      <p><span style="color:red">{{ message }}</span></p>
-                    {% endfor %}
-                  {% endif %}
+                  {% for message in messages %}
+                    <p><span style="color:red">{{ message }}</span></p>
+                  {% endfor %}
                 {% endwith %}
               </div>
             </form>
@@ -43,21 +37,18 @@
         </div>
       </div>
       {% if short_link%}
-      <div class="container">
-        <div class="row ">
-          <div class="col-sm">
-          </div>
-          <div class="col-sm">
-            <p class="text-center">
-            <h5 class="text-center">Ваша ссылка: <a href="{{ short_link }}">{{ short_link }}</a></h5>
-            </p>
-          </div>
-          <div class="col-sm">
+        <div class="container">
+          <div class="row ">
+            <div class="col-sm">
+            </div>
+            <div class="col-sm">
+              <h5 class="text-center">Ваша ссылка: <a href="{{ short_link }}">{{ short_link }}</a></h5>
+            </div>
+            <div class="col-sm">
+            </div>
           </div>
         </div>
-      </div>
       {% endif %}
-
     </section>
   </main>
 {% endblock main %}
