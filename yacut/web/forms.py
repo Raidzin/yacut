@@ -1,14 +1,20 @@
+from re import compile
+
 from flask_wtf import FlaskForm
 from wtforms import URLField, StringField, SubmitField
-from wtforms.validators import Length, URL, InputRequired
+from wtforms.validators import Length, URL, InputRequired, Regexp
 
-from yacut.settings import URL_ALLOWED_LENGTH
+from yacut.settings import ORIGINAL_URL_LENGTH, URL_ALLOWED_LENGTH
+
 
 ORIGINAL_LINK_NAME = 'Длинная ссылка'
 INCORRECT_LINK = 'Некорректная ссылка'
 REQUIRED_FIELD = 'Поле обязательное'
 CUSTOM_ID_NAME = 'Ваш вариант короткой ссылки'
-LENGTH_ERROR = 'Длина от 0 до 16'
+LENGTH_ERROR = 'Длина должна быть до {}'
+ORIGINAL_URL_LENGTH_ERROR = LENGTH_ERROR.format(ORIGINAL_URL_LENGTH)
+URL_LENGTH_ERROR = LENGTH_ERROR.format(URL_ALLOWED_LENGTH)
+INCORRECT_URL = 'Ссылка должна содержать только латинские символы и цифры'
 SUBMIT_BUTTON_TEXT = 'Создать'
 
 
@@ -16,14 +22,16 @@ class URLForm(FlaskForm):
     original_link = URLField(
         ORIGINAL_LINK_NAME,
         (
-            URL(message=INCORRECT_LINK),
             InputRequired(message=REQUIRED_FIELD),
+            Length(max=ORIGINAL_URL_LENGTH, message=ORIGINAL_URL_LENGTH_ERROR),
+            URL(message=INCORRECT_LINK),
         ),
     )
     custom_id = StringField(
         CUSTOM_ID_NAME,
         (
-            Length(0, URL_ALLOWED_LENGTH, LENGTH_ERROR),
+            Length(max=URL_ALLOWED_LENGTH, message=URL_LENGTH_ERROR),
+            Regexp(compile(r'^[A-Za-z0-9]*$'), message=INCORRECT_URL),
         ),
     )
     submit = SubmitField(SUBMIT_BUTTON_TEXT)
