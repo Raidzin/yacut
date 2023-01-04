@@ -1,5 +1,5 @@
 from datetime import datetime
-from random import choice
+from random import choices
 
 from sqlalchemy.exc import IntegrityError
 
@@ -43,7 +43,7 @@ class URLMap(db.Model):
     @staticmethod
     def _get_random_url():
         return ''.join([
-            choice(URL_ALLOWED_CHARACTERS) for _ in range(6)
+            choices([*URL_ALLOWED_CHARACTERS]).pop() for _ in range(6)
         ])
 
     @classmethod

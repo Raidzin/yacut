@@ -27,7 +27,7 @@ def _length_validation(allowed_length, data):
 
 
 def _characters_validation(allowed_characters, data):
-    if set(data) - set(allowed_characters):
+    if set(data) - allowed_characters:
         raise ValidationError(INCORRECT_NAME)
 
 

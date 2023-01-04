@@ -12,7 +12,7 @@ cwd = getcwd()
 
 ORIGINAL_URL_LENGTH = 100
 URL_ALLOWED_LENGTH = 16
-URL_ALLOWED_CHARACTERS = ascii_letters + digits
+URL_ALLOWED_CHARACTERS = set(ascii_letters + digits)
 RANDOM_RETRIES = 1000
 BASE_URL = 'http://localhost/'
 
