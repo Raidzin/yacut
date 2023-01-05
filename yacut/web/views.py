@@ -1,9 +1,8 @@
-from flask import render_template, redirect
+from flask import render_template, redirect, url_for
 
 from yacut import app
-from yacut.settings import BASE_URL
 from yacut.models import URLMap
-from yacut.web.exceptions import DBError, PageNotFound
+from yacut.web.exceptions import URLError, PageNotFound
 from yacut.web.forms import URLForm
 
 
@@ -13,13 +12,17 @@ def index():
     if not form.validate_on_submit():
         return render_template('index.html', form=form)
     try:
-        short_url = BASE_URL + URLMap.make_short_url(
-            form.original_link.data,
-            form.custom_id.data
+        short_url = url_for(
+            'redirect_to_original_url',
+            _external=True,
+            url=URLMap.make_short_url(
+                form.original_link.data,
+                form.custom_id.data
+            ),
         )
         return render_template('index.html', short_link=short_url, form=form)
     except URLMap.DBError as error:
-        raise DBError(form, error, 400)
+        raise URLError(form, error, 400)
 
 
 @app.route('/<url>')

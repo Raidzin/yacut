@@ -6,11 +6,12 @@ from sqlalchemy.exc import IntegrityError
 from yacut import db
 from yacut.settings import (
     URL_ALLOWED_CHARACTERS, RANDOM_RETRIES,
-    ORIGINAL_URL_LENGTH, URL_ALLOWED_LENGTH,
+    ORIGINAL_URL_LENGTH, URL_ALLOWED_LENGTH, RANDOM_URL_LENGTH
 )
 
 MAX_RETRIES = 'Не удалось создать уникальную ссылку'
 NAME_REQUIRED = 'Имя {} уже занято!'
+URL_ALLOWED_CHARACTERS = [*URL_ALLOWED_CHARACTERS]
 
 
 class URLMap(db.Model):
@@ -56,31 +57,27 @@ class URLMap(db.Model):
 
     @staticmethod
     def get_original_url(short_url):
-        # if urlmap := URLMap.get_short_url(short_url):
-        #     return urlmap.original
-        # return None
         urlmap = URLMap.get_short_url(short_url)
         if urlmap:
             return urlmap.original
         return None
 
-    @classmethod
-    def get_unique_url(cls):
+    @staticmethod
+    def get_unique_url():
         for _ in range(RANDOM_RETRIES):
-            unique_url = ''.join(choices([*URL_ALLOWED_CHARACTERS], k=6))
+            unique_url = ''.join(
+                choices(URL_ALLOWED_CHARACTERS, k=RANDOM_URL_LENGTH)
+            )
             if URLMap.query.filter(URLMap.short == unique_url).count() == 0:
                 return unique_url
-        raise TimeoutError(MAX_RETRIES)
+        raise URLMap.DBError(MAX_RETRIES)
 
     @staticmethod
     def make_random_short_url(original_url):
         short_url = URLMap.get_short_url_from_original(original_url)
         if short_url is None:
-            try:
-                short_url = URLMap.get_unique_url()
-            except TimeoutError as error:
-                raise URLMap.DBError(error)
-            URLMap.save_urls(original_url, short_url)
+            short_url = URLMap.get_unique_url()
+        URLMap.save_urls(original_url, short_url)
         return short_url
 
     @staticmethod

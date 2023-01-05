@@ -4,8 +4,10 @@ from flask_wtf import FlaskForm
 from wtforms import URLField, StringField, SubmitField
 from wtforms.validators import Length, URL, InputRequired, Regexp
 
-from yacut.settings import ORIGINAL_URL_LENGTH, URL_ALLOWED_LENGTH
-
+from yacut.settings import (
+    ORIGINAL_URL_LENGTH, URL_ALLOWED_LENGTH,
+    URL_ALLOWED_CHARACTERS
+)
 
 ORIGINAL_LINK_NAME = 'Длинная ссылка'
 INCORRECT_LINK = 'Некорректная ссылка'
@@ -31,7 +33,10 @@ class URLForm(FlaskForm):
         CUSTOM_ID_NAME,
         (
             Length(max=URL_ALLOWED_LENGTH, message=URL_LENGTH_ERROR),
-            Regexp(compile(r'^[A-Za-z0-9]*$'), message=INCORRECT_URL),
+            Regexp(
+                compile(rf'^[{URL_ALLOWED_CHARACTERS}]*$'),
+                message=INCORRECT_URL
+            ),
         ),
     )
     submit = SubmitField(SUBMIT_BUTTON_TEXT)

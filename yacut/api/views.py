@@ -36,7 +36,6 @@ def create_short_url():
 @app.route('/api/id/<short_url>/', methods=['GET'])
 def get_url(short_url):
     original_url = URLMap.get_original_url(short_url)
-    # if not (original_url := URLMap.get_original_url(short_url)):
     if not original_url:
         raise ProcessingError(URL_NOT_FOUND, 404)
     return jsonify({

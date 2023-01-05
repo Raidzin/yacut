@@ -40,16 +40,19 @@
   pip install -r requirements.txt
   ```
 
-## Создание БД
+## Создание БД/миграций
 ```shell
 export FLASK_APP=yacut
 ```
 ```shell
-flask shell
+flask db init
 ```
-```python
-from yacute import db
-db.create_all()
+для обновления базы
+```shell
+flask db migrate -m "added added_by field"
+```
+```shell
+flask db upgrade 
 ```
 ## Запуск
 Рекомендуется использвать wsgi сервер. В пакете `yacut` для его запуска есть приложение `app`. Но можно запустить отладочный сервер Flask.
@@ -65,7 +68,7 @@ python run.py
 
 ## Структура проекта
 
-![](https://github.com/Raidzin/yacut/blob/master/graphviz.svg?raw=true)
+![](https://github.com/Raidzin/yacut/blob/master/graphviz.png?raw=true)
 
 использован инструмент [Pylint](https://pylint.pycqa.org/en/latest/pyreverse.html)
 

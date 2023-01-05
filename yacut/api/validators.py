@@ -1,5 +1,8 @@
 from yacut.api.exceptions import ValidationError
-from yacut.settings import URL_ALLOWED_LENGTH, URL_ALLOWED_CHARACTERS
+from yacut.settings import (
+    ORIGINAL_URL_LENGTH, URL_ALLOWED_LENGTH,
+    URL_ALLOWED_CHARACTERS
+)
 from yacut.models import URLMap
 
 URL = 'url'
@@ -45,6 +48,7 @@ def _custom_url_validation(custom_url):
 def validate_urls(urls: dict):
     _not_none_validation(urls)
     _required_object_validation(URL, urls.keys())
+    _length_validation(ORIGINAL_URL_LENGTH, urls[URL])
     if CUSTOM_URL in urls and urls[CUSTOM_URL]:
         _custom_url_validation(urls[CUSTOM_URL])
     return urls
