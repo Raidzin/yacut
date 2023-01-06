@@ -1,10 +1,10 @@
-from flask import jsonify, request
+from flask import jsonify, request, url_for
 
 from yacut import app
 from yacut.models import URLMap
-from yacut.settings import BASE_URL
+from yacut.settings import REDIRECT_FUNCTION_NAME
+from yacut.api.exceptions import ProcessingError, ValidationError
 from yacut.api.validators import validate_urls
-from yacut.api.exceptions import ValidationError, ProcessingError
 
 URL_NOT_FOUND = 'Указанный id не найден'
 
@@ -22,7 +22,11 @@ def create_short_url():
         else:
             short_link = data[CUSTOM_URL]
             URLMap.save_urls(data[ORIGINAL_URL], short_link)
-        short_link = BASE_URL + short_link
+        short_link = url_for(
+            REDIRECT_FUNCTION_NAME,
+            _external=True,
+            url=short_link,
+            )
         return jsonify({
             ORIGINAL_URL: data[ORIGINAL_URL],
             SHORT_LINK: short_link

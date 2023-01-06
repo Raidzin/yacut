@@ -11,7 +11,7 @@ from yacut.settings import (
 
 MAX_RETRIES = 'Не удалось создать уникальную ссылку'
 NAME_REQUIRED = 'Имя {} уже занято!'
-URL_ALLOWED_CHARACTERS = [*URL_ALLOWED_CHARACTERS]
+ALLOWED_CHARACTERS = [*URL_ALLOWED_CHARACTERS]
 
 
 class URLMap(db.Model):
@@ -66,9 +66,9 @@ class URLMap(db.Model):
     def get_unique_url():
         for _ in range(RANDOM_RETRIES):
             unique_url = ''.join(
-                choices(URL_ALLOWED_CHARACTERS, k=RANDOM_URL_LENGTH)
+                choices(ALLOWED_CHARACTERS, k=RANDOM_URL_LENGTH)
             )
-            if URLMap.query.filter(URLMap.short == unique_url).count() == 0:
+            if not URLMap.short_url_exists(unique_url):
                 return unique_url
         raise URLMap.DBError(MAX_RETRIES)
 

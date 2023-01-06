@@ -1,8 +1,9 @@
-from flask import render_template, redirect, url_for
+from flask import flash, render_template, redirect, url_for
 
 from yacut import app
 from yacut.models import URLMap
-from yacut.web.exceptions import URLError, PageNotFound
+from yacut.settings import REDIRECT_FUNCTION_NAME
+from yacut.web.exceptions import PageNotFound
 from yacut.web.forms import URLForm
 
 
@@ -13,7 +14,7 @@ def index():
         return render_template('index.html', form=form)
     try:
         short_url = url_for(
-            'redirect_to_original_url',
+            REDIRECT_FUNCTION_NAME,
             _external=True,
             url=URLMap.make_short_url(
                 form.original_link.data,
@@ -22,7 +23,8 @@ def index():
         )
         return render_template('index.html', short_link=short_url, form=form)
     except URLMap.DBError as error:
-        raise URLError(form, error, 400)
+        flash(str(error))
+        return render_template('index.html', form=form)
 
 
 @app.route('/<url>')

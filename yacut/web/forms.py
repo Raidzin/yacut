@@ -34,7 +34,7 @@ class URLForm(FlaskForm):
         (
             Length(max=URL_ALLOWED_LENGTH, message=URL_LENGTH_ERROR),
             Regexp(
-                compile(rf'^[{URL_ALLOWED_CHARACTERS}]*$'),
+                compile(rf'^[\\Q{URL_ALLOWED_CHARACTERS}\\E]*$'),
                 message=INCORRECT_URL
             ),
         ),

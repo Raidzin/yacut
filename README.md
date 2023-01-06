@@ -40,17 +40,11 @@
   pip install -r requirements.txt
   ```
 
-## Создание БД/миграций
+## Миграции
 ```shell
 export FLASK_APP=yacut
 ```
-```shell
-flask db init
-```
-для обновления базы
-```shell
-flask db migrate -m "added added_by field"
-```
+Для обновления базы
 ```shell
 flask db upgrade 
 ```

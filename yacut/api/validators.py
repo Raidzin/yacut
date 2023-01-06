@@ -12,6 +12,7 @@ EMPTY_DATA = 'Отсутствует тело запроса'
 REQUIRED_FIELD = '"url" является обязательным полем!'
 INCORRECT_NAME = 'Указано недопустимое имя для короткой ссылки'
 NAME_REQUIRED = 'Имя "{}" уже занято.'
+ALLOWED_CHARACTERS = set(URL_ALLOWED_CHARACTERS)
 
 
 def _not_none_validation(data):
@@ -41,7 +42,7 @@ def _short_url_exist_validation(short_url):
 
 def _custom_url_validation(custom_url):
     _length_validation(URL_ALLOWED_LENGTH, custom_url)
-    _characters_validation(URL_ALLOWED_CHARACTERS, custom_url)
+    _characters_validation(ALLOWED_CHARACTERS, custom_url)
     _short_url_exist_validation(custom_url)
 
 

@@ -10,12 +10,12 @@ from flask_sqlalchemy import SQLAlchemy
 load_dotenv()
 cwd = getcwd()
 
-ORIGINAL_URL_LENGTH = 100
+ORIGINAL_URL_LENGTH = 2000
 URL_ALLOWED_LENGTH = 16
 RANDOM_URL_LENGTH = 6
-URL_ALLOWED_CHARACTERS = set(ascii_letters + digits)
+URL_ALLOWED_CHARACTERS = ascii_letters + digits
 RANDOM_RETRIES = 1000
-BASE_URL = 'http://localhost/'
+REDIRECT_FUNCTION_NAME = 'redirect_to_original_url'
 
 
 class Config(object):

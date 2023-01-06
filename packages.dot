@@ -42,6 +42,7 @@ charset="utf-8"
 "yacut.web.forms" -> "yacut.settings" [arrowhead="open", arrowtail="none"];
 "yacut.web.views" -> "yacut" [arrowhead="open", arrowtail="none"];
 "yacut.web.views" -> "yacut.models" [arrowhead="open", arrowtail="none"];
+"yacut.web.views" -> "yacut.settings" [arrowhead="open", arrowtail="none"];
 "yacut.web.views" -> "yacut.web.exceptions" [arrowhead="open", arrowtail="none"];
 "yacut.web.views" -> "yacut.web.forms" [arrowhead="open", arrowtail="none"];
 }
