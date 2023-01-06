@@ -26,7 +26,7 @@ def create_short_url():
             REDIRECT_FUNCTION_NAME,
             _external=True,
             url=short_link,
-            )
+        )
         return jsonify({
             ORIGINAL_URL: data[ORIGINAL_URL],
             SHORT_LINK: short_link

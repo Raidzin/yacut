@@ -1,4 +1,4 @@
-from flask import render_template, flash
+from flask import render_template
 
 from yacut import app
 from yacut.web.exceptions import PageNotFound
