@@ -1,4 +1,4 @@
-from re import compile
+from re import compile, escape
 
 from flask_wtf import FlaskForm
 from wtforms import URLField, StringField, SubmitField
@@ -19,6 +19,8 @@ URL_LENGTH_ERROR = LENGTH_ERROR.format(URL_ALLOWED_LENGTH)
 INCORRECT_URL = 'Ссылка должна содержать только латинские символы и цифры'
 SUBMIT_BUTTON_TEXT = 'Создать'
 
+ALLOWED_CHARACTERS_REGEX = compile(rf'^[{escape(URL_ALLOWED_CHARACTERS)}]*$')
+
 
 class URLForm(FlaskForm):
     original_link = URLField(
@@ -33,10 +35,7 @@ class URLForm(FlaskForm):
         CUSTOM_ID_NAME,
         (
             Length(max=URL_ALLOWED_LENGTH, message=URL_LENGTH_ERROR),
-            Regexp(
-                compile(rf'^[\\Q{URL_ALLOWED_CHARACTERS}\\E]*$'),
-                message=INCORRECT_URL
-            ),
+            Regexp(ALLOWED_CHARACTERS_REGEX, message=INCORRECT_URL),
         ),
     )
     submit = SubmitField(SUBMIT_BUTTON_TEXT)

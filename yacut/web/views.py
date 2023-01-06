@@ -18,13 +18,13 @@ def index():
             _external=True,
             url=URLMap.make_short_url(
                 form.original_link.data,
-                form.custom_id.data
+                form.custom_id.data,
             ),
         )
-        return render_template('index.html', short_link=short_url, form=form)
     except URLMap.DBError as error:
         flash(str(error))
         return render_template('index.html', form=form)
+    return render_template('index.html', short_link=short_url, form=form)
 
 
 @app.route('/<url>')
